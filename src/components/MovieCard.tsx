@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Movie } from '../interfaces/movieInterface';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -20,11 +20,14 @@ export const MovieCard = ({ movie, height = 420, width = 300}:Props) => {
   
     return (
       <TouchableOpacity 
-        // onPress={ () => navigation.navigate('DetailScreen') }
+        onPress={ () => navigation.dispatch(CommonActions.navigate('DetailScreen', movie)) }
+        activeOpacity={0.8}
         style={{
           width,
           height,
-          marginHorizontal:8
+          marginHorizontal:2,
+          paddingBottom:20,
+          paddingHorizontal:7,
           
       }}>
           <View style={style.imageContainer}>

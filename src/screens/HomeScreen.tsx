@@ -41,7 +41,7 @@ export const HomeScreen = () => {
           {/* Peliculas populares */}
 
           <HorizontalSlider title="Populares" movies={popular!}/>
-          <HorizontalSlider title="Top Rated" movies={topRated!}/>
+          <HorizontalSlider title="Mejores Peliculas" movies={topRated!}/>
           <HorizontalSlider title="Proximamente" movies={upcoming!}/>
       </View>
     </ScrollView> 

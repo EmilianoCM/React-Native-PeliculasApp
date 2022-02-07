@@ -14,7 +14,7 @@ export const HorizontalSlider = ({title, movies}:Props) => {
         height:(title) ? 260 : 220
       }}>
         {
-            title && <Text style={{fontSize:30, fontWeight:'bold', marginLeft:10}}>{ title }</Text>
+            title && <Text style={{fontSize:25, fontWeight:'bold', marginLeft:10, marginBottom:5}}>{ title }</Text>
         }
           <FlatList
             data={movies}
