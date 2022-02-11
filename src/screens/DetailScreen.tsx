@@ -1,10 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { Text, View, Image, StyleSheet, Dimensions } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Text, View, Image, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { RootStackParams } from '../navigation/Navigator';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useMovieDetails } from '../hooks/useMovieDetails';
+import { MovieDetails } from '../components/MovieDetails';
 ;
 
 
@@ -12,11 +14,13 @@ const screenHeight = Dimensions.get('screen').height;
 
 interface Props extends StackScreenProps<RootStackParams, 'DetailScreen'> {}
 
-export const DetailScreen = ({ route }:Props) => {
+export const DetailScreen = ({ route, navigation }:Props) => {
   
   const movie = route.params;
   const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
   
+  const {isLoading, movieFull, cast} = useMovieDetails(movie.id);
+
   return (
     <ScrollView>
       <View style={styles.imageContainer}>
@@ -28,16 +32,34 @@ export const DetailScreen = ({ route }:Props) => {
         </View>
       </View>
       <View style={styles.marginContainer}>
-        <Text style={styles.title}>{movie.original_title}</Text>
         <Text style={styles.subtitle}>{movie.title}</Text>
+        <Text style={styles.title}>{movie.original_title}</Text>
       </View>
-      <View style={styles.marginContainer}>
-        <Icon
-          name="star-outline"
-          color="grey"
-          size={20}
-        />
-      </View>
+      
+        {
+          isLoading
+            ? <ActivityIndicator size={35} color="grey" style={{marginTop:20}}/>
+            : <MovieDetails movieFull={movieFull!} cast={cast}/>
+        }
+
+        {/* Boton Regresar */}
+        
+        <View style={styles.backButton}>  
+        <TouchableOpacity
+          onPress={ () => navigation.pop() }
+        >
+          <Icon
+            name='arrow-back-outline'
+            size={60}
+            color="white"
+          />
+        </TouchableOpacity>
+        
+        
+        </View>
+
+        
+      
     </ScrollView>
     
     );
@@ -83,5 +105,13 @@ const styles = StyleSheet.create({
     fontSize:16,
     opacity:0.8
   },
+
+  backButton:{
+    position:'absolute',
+    zIndex:999,
+    elevation:9,
+    top:10,
+    left:10
+  }
 
 })
